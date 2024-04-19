@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	       }
 
 	      g.drawImage(img, 0, 0, 500, 500, null);
+	      
 	}
 
 }

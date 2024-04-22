@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	public GamePanel() {
-		
+		this.setBackground(Color.black);
 	}
 	
 	@Override
@@ -35,9 +35,13 @@ public class GamePanel extends JPanel implements ActionListener{
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-
+	       
 	      g.drawImage(img, 0, 0, 500, 500, null);
 	      
+	}
+	
+	public void updateAnimation() {
+		
 	}
 
 }

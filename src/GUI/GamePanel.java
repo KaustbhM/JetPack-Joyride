@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-	      g.drawImage(img, 0, 0, 500, 500, null);
+	      g.drawImage(img, 0, 0, 1920, 1080, null);
 	      
 	}
 	

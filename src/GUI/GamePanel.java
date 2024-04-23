@@ -31,11 +31,10 @@ public class GamePanel extends JPanel implements ActionListener{
 		super.paintComponent(g);
 		BufferedImage img = null;
 	       try{
-	         img = ImageIO.read(new File("/Caveman-Joyride/src/Images/pixel-art-game-background-underground-cave-vector-49391631.jpg"));
+	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-	       
 	      g.drawImage(img, 0, 0, 500, 500, null);
 	      
 	}

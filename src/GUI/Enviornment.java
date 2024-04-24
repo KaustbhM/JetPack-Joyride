@@ -28,7 +28,7 @@ public class Enviornment extends JFrame{
 	
 	public void createFrame(Object semaphore) {
 		
-		this.setSize(500, 500);
+		this.setSize(1920, 1080);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel = new GamePanel();
 	   

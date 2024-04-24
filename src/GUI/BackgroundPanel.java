@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -9,13 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 
 public class BackgroundPanel extends JPanel implements ActionListener{
 
-	private JButton startGame;
+	private JButton startBtn = new JButton();
 	
 	
 	
@@ -35,6 +35,13 @@ public class BackgroundPanel extends JPanel implements ActionListener{
 	       }
 
 	      g.drawImage(img, 0, 0, null);
+	      createComponents();
 	}
 
+	public void createComponents() {
+		this.setBackground(Color.gray);
+		setLayout(null);
+		startBtn.setBounds(750, 450, 400, 100);
+		this.add(startBtn);
+	}
 }

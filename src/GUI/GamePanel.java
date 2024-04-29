@@ -16,6 +16,9 @@ import javax.swing.Timer;
 
 import java.util.ArrayList;
 
+import Characters.Caveman;
+import Characters.Character;
+
 public class GamePanel extends JPanel implements ActionListener{
 	private JButton startBtn = new JButton();
 	Caveman caveman = new Caveman();
@@ -33,25 +36,31 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.setBackground(Color.black);
 		time = new Timer(5, this);
 		time.start();
+		if (caveman.getbx2() == 1900) {
+			System.out.println("hi");
+			repaint();
+		}
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		Graphics2D twoD = (Graphics2D)g;
+		super.paintComponent(twoD);
 		BufferedImage img = null;
 	       try{
 	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-	       
+	       caveman.bx = caveman.getbx2() + img.getWidth();
 	       //draws the background image
-	      g.drawImage(img, 1900-caveman.getbx2(), 0, null);
+	      twoD.drawImage(img, 1900-caveman.getbx2(), 0, null);
+	      twoD.drawImage(img, 1900-caveman.bx, 0, null);
 	      //trys to draw second background image after first has passed
-	      if (caveman.getbx2() == 0) {
+	      if (caveman.bx == 1900) {
 	    	  System.out.println("hi");
-	    	  caveman.setbx2(caveman.getbx2() + img.getWidth());
-	    	  g.drawImage(img, 1900-caveman.getbx2() + img.getWidth(), 0, null);
+	    	  caveman.setbx2(img.getWidth()+caveman.bx);
+	    	  twoD.drawImage(img, 1900-caveman.getbx2() + img.getWidth(), 0, null);
 	      }
 	      
 	      createComponents();

@@ -1,4 +1,4 @@
-package GUI;
+package Characters;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -12,6 +12,7 @@ public class Caveman {
 	int dy;
 	int y;
 	int bx2;
+	public int bx;
 	BufferedImage img;
 	
 	public Caveman() {

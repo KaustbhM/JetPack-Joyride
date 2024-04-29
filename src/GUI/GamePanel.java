@@ -12,24 +12,31 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements ActionListener{
 	private JButton startBtn = new JButton();
+	Caveman caveman = new Caveman();
+	Timer time;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		caveman.move();
+		repaint();
 		
 	}
 	
 	public GamePanel() {
+		addKeyListener(new AL());
 		this.setBackground(Color.black);
+		time = new Timer(5, this);
+		time.start();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		// System.out.println("Hello");
 		super.paintComponent(g);
 		BufferedImage img = null;
 	       try{
@@ -37,7 +44,16 @@ public class GamePanel extends JPanel implements ActionListener{
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-	      g.drawImage(img, 0, 0, 1920, 1080, null);
+	       
+	       //draws the background image
+	      g.drawImage(img, 1900-caveman.getbx2(), 0, null);
+	      //trys to draw second background image after first has passed
+	      if (caveman.getbx2() == 0) {
+	    	  System.out.println("hi");
+	    	  caveman.setbx2(caveman.getbx2() + img.getWidth());
+	    	  g.drawImage(img, 1900-caveman.getbx2() + img.getWidth(), 0, null);
+	      }
+	      
 	      createComponents();
 	}
 
@@ -59,5 +75,12 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void updateAnimation() {
 		
 	}
+	
+	private class AL extends KeyAdapter{
+		public void KeyPressed(KeyEvent e) {
+			caveman.keyPressed(e);
+		}
+	}
+	
 
 }

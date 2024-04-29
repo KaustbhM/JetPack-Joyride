@@ -23,7 +23,11 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 		caveman.move();
+=======
+		// TODO Auto-generated method stub
+>>>>>>> branch 'main' of https://github.com/KaustbhM/JetPack-Joyride.git
 		repaint();
 		
 	}

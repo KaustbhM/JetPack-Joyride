@@ -23,10 +23,16 @@ public class GamePanel extends JPanel implements ActionListener{
 	private JButton startBtn = new JButton();
 	Caveman caveman = new Caveman();
 	Timer time;
+	private int dx = 1;
+	private int bx = 1900;
 
+	
+	private void move() {
+		bx += dx;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		caveman.move();
+		move();
 		repaint();
 		
 	}
@@ -36,10 +42,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.setBackground(Color.black);
 		time = new Timer(5, this);
 		time.start();
-		if (caveman.getbx2() == 1900) {
-			System.out.println("hi");
-			repaint();
-		}
 	}
 	
 	@Override
@@ -52,16 +54,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	       }catch(IOException e){
 	         e.printStackTrace();
 	       }
-	       caveman.bx = caveman.getbx2() + img.getWidth();
 	       //draws the background image
-	      twoD.drawImage(img, 1900-caveman.getbx2(), 0, null);
-	      twoD.drawImage(img, 1900-caveman.bx, 0, null);
+	      twoD.drawImage(img, 1900-bx, 0, null);
 	      //trys to draw second background image after first has passed
-	      if (caveman.bx == 1900) {
-	    	  System.out.println("hi");
-	    	  caveman.setbx2(img.getWidth()+caveman.bx);
-	    	  twoD.drawImage(img, 1900-caveman.getbx2() + img.getWidth(), 0, null);
-	      }
 	      
 	      createComponents();
 	}

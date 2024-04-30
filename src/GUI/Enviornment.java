@@ -3,7 +3,11 @@ package GUI;
 import java.awt.Graphics;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class Enviornment extends JFrame{
-	
+	BufferedImage img;
 	private GamePanel panel;
 	// private BackgroundPanel backgroundPanel;
 	private static volatile boolean done = false;
@@ -27,12 +31,19 @@ public class Enviornment extends JFrame{
 	  }
 	
 	public void createFrame(Object semaphore) {
-		
-		this.setSize(1920, 1080);
+
+	       try{
+	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
+	       }catch(IOException e){
+	         e.printStackTrace();
+	       }
+	       
+	       
+		this.setSize(img.getWidth(), img.getHeight());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel = new GamePanel();
 	   
-	        panel.setBounds(0, 0, 500,500);
+	        panel.setBounds(0, 0, 1920,1080);
 	        add(panel);
 	        panel.setVisible(false);
 	      

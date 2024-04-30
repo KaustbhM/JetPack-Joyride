@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,71 +21,97 @@ import Characters.Caveman;
 import Characters.Character;
 
 public class GamePanel extends JPanel implements ActionListener{
-	private JButton startBtn = new JButton();
-	Caveman caveman = new Caveman();
-	Timer time;
-	private int dx = 1;
-	private int bx = 1900;
+  private JButton startBtn = new JButton();
+  Caveman caveman = new Caveman();
+  private Timer time;
 
-	
-	private void move() {
-		bx += dx;
-	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		move();
-		repaint();
-		
-	}
-	
-	public GamePanel() {
-		addKeyListener(new AL());
-		this.setBackground(Color.black);
-		time = new Timer(5, this);
-		time.start();
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		Graphics2D twoD = (Graphics2D)g;
-		super.paintComponent(twoD);
-		BufferedImage img = null;
-	       try{
-	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
-	       }catch(IOException e){
-	         e.printStackTrace();
-	       }
-	       //draws the background image
-	      twoD.drawImage(img, 1900-bx, 0, null);
-	      //trys to draw second background image after first has passed
-	      
-	      createComponents();
-	}
 
-	public void createComponents() {
-		startBtn.setBackground(Color.black);
-		startBtn.setBorderPainted(false);
-		setLayout(null);
-		startBtn.setBounds(750, 450, 250, 100);
-		this.add(startBtn);
-		 try {
-			    Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
-			    startBtn.setIcon(new ImageIcon(img));
-			  } catch (Exception ex) {
-			    System.out.println(ex);
-			  }
-	}
-	
-	
-	public void updateAnimation() {
-		
-	}
-	
-	private class AL extends KeyAdapter{
-		public void KeyPressed(KeyEvent e) {
-			caveman.keyPressed(e);
-		}
-	}
-	
 
+  private Image backgroundImage;
+  private int bgX = 0;
+  private final int SPEED = 1;
+
+
+  private static final int BTN_SIZE = 50;
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    //caveman.move();
+    moveBackground();
+    repaint();
+
+  }
+
+  public GamePanel() {
+    backgroundImage = new ImageIcon(getClass().getResource("cave.jpg")).getImage();
+
+    if (backgroundImage.getWidth(null) == -1) {
+      System.out.println("Image not loaded properly");
+    }
+    time = new Timer(5, this);
+    time.start();
+    setFocusable(true);
+    setFocusTraversalKeysEnabled(false);
+    setPreferredSize(new Dimension(800, 600));
+  }
+
+  @Override
+  public void paintComponent(Graphics g) {
+    Graphics2D twoD = (Graphics2D)g;
+    super.paintComponent(twoD);
+    BufferedImage img = null;
+         try{
+           img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
+         }catch(IOException e){
+           e.printStackTrace();
+         }
+
+      super.paintComponent(g);
+
+      // Draw the continuous looping background
+      g.drawImage(backgroundImage, bgX, 0, null);
+
+      // g.drawImage(backgroundImage, bgX, 0, 1920, 1080, null);
+      if (bgX < 0) {
+        g.drawImage(backgroundImage, bgX + backgroundImage.getWidth(null), 0, null);
+
+      }
+        createComponents();
+  }
+
+  public void createComponents() {
+    startBtn.setBackground(Color.black);
+    startBtn.setBorderPainted(false);
+    setLayout(null);
+    startBtn.setBounds(750, 450, 250, 100);
+    this.add(startBtn);
+     try {
+          Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
+          startBtn.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+          System.out.println(ex);
+        }
+  }
+
+
+  public void updateAnimation() {
+
+  }
+
+
+  private class AL extends KeyAdapter{
+    public void KeyPressed(KeyEvent e) {
+      caveman.keyPressed(e);
+    }
+  }
+
+
+
+  // New Code
+  private void moveBackground() {
+    bgX -= SPEED;
+    if (bgX == -backgroundImage.getWidth(null)) {
+      bgX = 0;
+    }
+  }
 }

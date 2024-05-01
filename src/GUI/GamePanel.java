@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,11 +21,12 @@ import Characters.Caveman;
 import Characters.Character;
 
 public class GamePanel extends JPanel implements ActionListener{
+	
 	private JButton startBtn = new JButton();
 	Caveman caveman = new Caveman();
 	private Timer time;
 	
-	
+	private static final int floor = 547;
 	
 	private Image backgroundImage;
 	private int bgX = 0;
@@ -83,7 +84,8 @@ public class GamePanel extends JPanel implements ActionListener{
 		startBtn.setBackground(Color.black);
 		startBtn.setBorderPainted(false);
 		setLayout(null);
-		startBtn.setBounds(750, 450, 250, 100);
+		// int width = ((Icon) backgroundImage).getIconWidth() / 2;
+		startBtn.setBounds(370, 450, 250, 100);
 		this.add(startBtn);
 		 try {
 			    Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
@@ -107,6 +109,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	
 	
+	
 	// New Code
 	private void moveBackground() {
 		bgX -= SPEED;
@@ -114,4 +117,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			bgX = 0;
 		}
 	}
+
+
+
 }

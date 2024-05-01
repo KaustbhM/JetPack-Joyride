@@ -83,7 +83,7 @@ public class GamePanel extends JPanel implements ActionListener{
     startBtn.setBackground(Color.black);
     startBtn.setBorderPainted(false);
     setLayout(null);
-    startBtn.setBounds(750, 450, 250, 100);
+    startBtn.setBounds(370, 450, 250, 100);
     this.add(startBtn);
      try {
           Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));

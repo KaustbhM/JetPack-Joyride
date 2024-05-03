@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    //caveman.move();
+	String s = e.getActionCommand();
     moveBackground();
     repaint();
 
@@ -59,23 +59,23 @@ public class GamePanel extends JPanel implements ActionListener{
   public void paintComponent(Graphics g) {
     Graphics2D twoD = (Graphics2D)g;
     super.paintComponent(twoD);
-    BufferedImage img = null;
-         try{
-           img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
-         }catch(IOException e){
-           e.printStackTrace();
-         }
-
-      super.paintComponent(g);
 
       // Draw the continuous looping background
-      g.drawImage(backgroundImage, bgX, 0, null);
+      twoD.drawImage(backgroundImage, bgX, 0, null);
 
       // g.drawImage(backgroundImage, bgX, 0, 1920, 1080, null);
       if (bgX < 0) {
-        g.drawImage(backgroundImage, bgX + backgroundImage.getWidth(null), 0, null);
+        twoD.drawImage(backgroundImage, bgX + backgroundImage.getWidth(null), 0, null);
 
       }
+      
+      BufferedImage man = null;
+      try{
+        man = ImageIO.read(getClass().getResourceAsStream("caveman.png"));
+      }catch(IOException e){
+        e.printStackTrace();
+      }
+      twoD.drawImage(man,caveman.getX(), caveman.getY(), 175, 100 , null);
         createComponents();
   }
 

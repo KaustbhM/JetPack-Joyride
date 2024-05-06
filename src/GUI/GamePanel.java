@@ -38,11 +38,13 @@ public class GamePanel extends JPanel implements ActionListener{
   public void actionPerformed(ActionEvent e) {
 	String s = e.getActionCommand();
     moveBackground();
+    caveman.move();
     repaint();
 
   }
 
   public GamePanel() {
+	  addEventHandlers();
     backgroundImage = new ImageIcon(getClass().getResource("cave.jpg")).getImage();
 
     if (backgroundImage.getWidth(null) == -1) {
@@ -70,12 +72,16 @@ public class GamePanel extends JPanel implements ActionListener{
       }
       
       BufferedImage man = null;
+      BufferedImage fire = null;
       try{
         man = ImageIO.read(getClass().getResourceAsStream("caveman.png"));
+        fire = ImageIO.read(getClass().getResourceAsStream("fire.png"));
       }catch(IOException e){
         e.printStackTrace();
       }
       twoD.drawImage(man,caveman.getX(), caveman.getY(), 175, 100 , null);
+      twoD.drawImage(fire,caveman.getX()+37, caveman.getY()+62, 40, 65 , null);
+      
         createComponents();
   }
 
@@ -92,6 +98,26 @@ public class GamePanel extends JPanel implements ActionListener{
           System.out.println(ex);
         }
   }
+  
+  private void addEventHandlers() {
+      // a mouse listener requires a full interface with lots of methods.
+      // to get around having implement all, we use the MouseAdapter class
+      // and override just the one method we're interested in.
+
+
+      this.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mousePressed(MouseEvent e) {
+        	  caveman.dyUp = -9;
+        	  System.out.println("hi");
+          }
+          @Override
+          public void mouseReleased(MouseEvent e) {
+        	  System.out.println("Hi");
+        	  caveman.dyUp = 0;
+          }
+      });
+  }
 
 
   public void updateAnimation() {
@@ -103,6 +129,9 @@ public class GamePanel extends JPanel implements ActionListener{
     public void KeyPressed(KeyEvent e) {
       caveman.keyPressed(e);
     }
+    public void KeyReleased(KeyEvent e) {
+        caveman.KeyReleased(e);
+      }
   }
 
 

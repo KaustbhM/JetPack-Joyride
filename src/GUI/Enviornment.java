@@ -1,3 +1,4 @@
+
 package GUI;
 
 import java.awt.Graphics;
@@ -31,7 +32,6 @@ public class Enviornment extends JFrame{
 	  }
 	
 	public void createFrame(Object semaphore) {
-
 	       try{
 	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
 	       }catch(IOException e){

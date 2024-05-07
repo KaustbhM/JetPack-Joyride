@@ -1,68 +1,35 @@
+
 package Characters;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
+import javax.swing.ImageIcon;
 
 public class Caveman {
 	int x;
-	int dx = 1;
-	int dy;
+	int dyDown = -9;
+	public int dyUp;
 	int y;
-	int bx2;
-	public int bx;
-	BufferedImage img;
-	
+	public BufferedImage img;
 	public Caveman() {
-		//BufferedImage img = null;
-//	       try{
-//	    	   img = ImageIO.read(getClass().getResourceAsStream(""));
-//	       }catch(IOException e){
-//	         e.printStackTrace();
-		img = null;
-	       try{
-	    	   img = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
-	       }catch(IOException e){
-	         e.printStackTrace();
-	       }
-//	       }
-		x = 75;
-		y = 100;
-		bx2 = 1900;
+		x = 20;
+		y = 200;
 	}
 	
 	public void move() {
-		//x = x + dx;
-		// bx2 += dx;
-		bx2 += dx;
-		if (bx2 == img.getWidth()) {
-			bx2 = 0;
-		}
-	}
-	
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_UP) {
-			y += 1;
-		}
+		y += dyUp-dyDown;
 	}
 
-	public void setbx2(int i) {
-		bx2 = i;
-		
+	public int getX() {
+		// TODO Auto-generated method stub
+		return x;
 	}
-	public int getbx2() {
-		return bx2;
+	public int getY() {
+		// TODO Auto-generated method stub
+		return y;
 	}
 }

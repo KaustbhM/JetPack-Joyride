@@ -142,16 +142,6 @@ public class GamePanel extends JPanel implements ActionListener{
   }
 
 
-  private class AL extends KeyAdapter{
-    public void KeyPressed(KeyEvent e) {
-      caveman.keyPressed(e);
-    }
-    public void KeyReleased(KeyEvent e) {
-        caveman.KeyReleased(e);
-      }
-  }
-
-
 
   // New Code
   private void moveBackground() {

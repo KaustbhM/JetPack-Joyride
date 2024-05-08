@@ -1,50 +1,61 @@
 package Characters;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Caveman {
 	int x;
-	int dx = 1;
-	int dy;
-	int y;
-	int bx2;
-	public int bx;
-	BufferedImage img;
-	
+	public int dyDown = -9;
+	public int dyUp;
+	public int y;
+	public int floor = 470;
+	public int top = -20;
+	public BufferedImage img;
 	public Caveman() {
-		//BufferedImage img = null;
-//	       try{
-//	    	   img = ImageIO.read(getClass().getResourceAsStream(""));
-//	       }catch(IOException e){
-//	         e.printStackTrace();
-//	       }
-		x = 75;
-		y = 100;
-		bx2 = 1900;
+		x = 20;
+		y = 200;
 	}
 	
 	public void move() {
-		x = x + dx;
-		bx2 += dx;
+		y += dyUp-dyDown;
+		if (this.y >= this.floor) {
+	        //dont go beneath the floor
+	        this.y = this.floor;
+	    }
+		if (this.y <= this.top) {
+	        //dont go beneath the floor
+	        this.y = this.top;
+	    }
 	}
 	
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_UP) {
-			y += 1;
-		}
-	}
+//	public void move() {
+//        // change velocity by the gravity
+//        this.dyUp += dyDown;
+//        //change position by the gravity
+//        this.y -= this.dyUp;
+//		
+//		
+//		
+//
+//        if (this.y >= this.floor) {
+//            this.dyDown = -9;
+//            this.dyUp = 20;
+//            //dont go beneath the floor
+//            this.y = this.floor;
+//        }
+//    }
 
-	public void setbx2(int i) {
-		bx2 = i;
-		
+	public int getX() {
+		// TODO Auto-generated method stub
+		return x;
 	}
-	public int getbx2() {
-		return bx2;
+	public int getY() {
+		// TODO Auto-generated method stub
+		return y;
 	}
 }

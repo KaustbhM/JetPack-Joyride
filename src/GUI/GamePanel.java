@@ -79,8 +79,12 @@ public class GamePanel extends JPanel implements ActionListener{
       }catch(IOException e){
         e.printStackTrace();
       }
+      
       twoD.drawImage(man,caveman.getX(), caveman.getY(), 175, 100 , null);
-      twoD.drawImage(fire,caveman.getX()+37, caveman.getY()+62, 40, 65 , null);
+      //only draws fire image when caveman is moving up
+      if (caveman.dyUp < caveman.dyDown) {
+    	  twoD.drawImage(fire,caveman.getX()+37, caveman.getY()+62, 40, 65 , null);
+      }
       
         createComponents();
   }
@@ -112,12 +116,9 @@ public class GamePanel extends JPanel implements ActionListener{
       		if (key == KeyEvent.VK_SPACE) {
       			caveman.dyUp = -20;
       		}
-        	  caveman.dyUp = -20;
-        	  System.out.println("hi");
           }
           @Override
           public void keyReleased(KeyEvent e) {
-        	  System.out.println("Hi");
         	  caveman.dyUp = 0;
           }
       });
@@ -126,11 +127,10 @@ public class GamePanel extends JPanel implements ActionListener{
           @Override
           public void mousePressed(MouseEvent e) {
         	  caveman.dyUp = -20;
-        	  System.out.println("hi");
+        	  
           }
           @Override
           public void mouseReleased(MouseEvent e) {
-        	  System.out.println("Hi");
         	  caveman.dyUp = 0;
           }
       });

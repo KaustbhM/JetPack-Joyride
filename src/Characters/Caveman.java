@@ -10,19 +10,31 @@ import javax.swing.ImageIcon;
 
 public class Caveman {
 	int x;
-	public int dyDown = -9;
-	public int dyUp;
+	public int dyDown = -1 ;
+	public int dyUp = 5;
 	public int y;
 	public int floor = 470;
 	public int top = -20;
 	public BufferedImage img;
+	
+	public boolean mouseReleased;
+	public boolean mousePressed;
 	public Caveman() {
 		x = 20;
 		y = 200;
 	}
 	
+	public int count = 20;
 	public void move() {
 		y += dyUp-dyDown;
+		if (mouseReleased == true) {
+			count--;
+			y-=count;
+		}
+		if (mousePressed == true) {
+			count = 19;
+			
+		}
 		if (this.y >= this.floor) {
 	        //dont go beneath the floor
 	        this.y = this.floor;

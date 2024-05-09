@@ -24,7 +24,7 @@ public class Caveman {
 		y = 200;
 	}
 	
-	public int count = 20;
+	public int count = 5;
 	public void move() {
 		y += dyUp-dyDown;
 		if (mouseReleased == true) {

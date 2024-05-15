@@ -56,6 +56,8 @@ public class GamePanel extends JPanel implements ActionListener{
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);
     setPreferredSize(new Dimension(800, 600));
+    
+    
   }
 
   @Override
@@ -63,6 +65,9 @@ public class GamePanel extends JPanel implements ActionListener{
     Graphics2D twoD = (Graphics2D)g;
     super.paintComponent(twoD);
 
+    
+      // Call the coin drawing method
+    
       // Draw the continuous looping background
       twoD.drawImage(backgroundImage, bgX, 0, null);
 
@@ -155,4 +160,10 @@ public class GamePanel extends JPanel implements ActionListener{
       bgX = 0;
     }
   }
+  
+  public void drawCoin(Graphics g) {
+	  
+  }
+  
+  
 }

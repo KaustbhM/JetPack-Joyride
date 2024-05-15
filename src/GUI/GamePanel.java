@@ -80,8 +80,12 @@ public class GamePanel extends JPanel implements ActionListener{
       }catch(IOException e){
         e.printStackTrace();
       }
+      
       twoD.drawImage(man,caveman.getX(), caveman.getY(), 175, 100 , null);
-      twoD.drawImage(fire,caveman.getX()+37, caveman.getY()+62, 40, 65 , null);
+      //only draws fire image when caveman is moving up
+      if (caveman.dyUp < caveman.dyDown) {
+    	  twoD.drawImage(fire,caveman.getX()+37, caveman.getY()+62, 40, 65 , null);
+      }
       
         createComponents();
   }
@@ -110,29 +114,29 @@ public class GamePanel extends JPanel implements ActionListener{
           public void keyPressed(KeyEvent e) {
         	  int key = e.getKeyCode();
       		
-      		if (key == KeyEvent.VK_SPACE) {
+      		if (key == KeyEvent.VK_SPACE || key == KeyEvent.VK_UP) {
       			caveman.dyUp = -20;
       		}
-        	  caveman.dyUp = -20;
-        	  System.out.println("hi");
           }
           @Override
           public void keyReleased(KeyEvent e) {
-        	  System.out.println("Hi");
-        	  caveman.dyUp = 0;
+        	  caveman.dyUp = 5;
           }
       });
 
       this.addMouseListener(new MouseAdapter() {
           @Override
           public void mousePressed(MouseEvent e) {
-        	  caveman.dyUp = -20;
-        	  System.out.println("hi");
+        	  caveman.dyUp = -10;
+        	  caveman.mousePressed = true;
+        	  caveman.mouseReleased = false;
+        	  
           }
           @Override
           public void mouseReleased(MouseEvent e) {
-        	  System.out.println("Hi");
-        	  caveman.dyUp = 0;
+        	  caveman.dyUp = 5;
+        	  caveman.mouseReleased = true;
+        	  caveman.mousePressed = false;
           }
       });
   }

@@ -21,19 +21,19 @@ public class Caveman {
 	public boolean mouseReleased;
 	public boolean mousePressed;
 	public Caveman() {
-		x = 20;
+		x = 100;
 		y = 200;
 	}
 	
-	public int count = 5;
+	public int count = 15;
 	public void move() {
 		y += dyUp-dyDown;
 		if (mouseReleased == true) {
-			count--;
+			count-=2;
 			y-=count;
 		}
 		if (mousePressed == true) {
-			count = 19;
+			count = 15;
 			
 		}
 		if (this.y >= this.floor) {

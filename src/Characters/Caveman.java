@@ -17,35 +17,35 @@ public class Caveman {
 	public int floor = 470;
 	public int top = -20;
 	public BufferedImage img;
-	
+
 	public boolean mouseReleased;
 	public boolean mousePressed;
 	public Caveman() {
-		x = 100;
+		x = 20;
 		y = 200;
 	}
-	
-	public int count = 15;
+
+	public int count = 5;
 	public void move() {
 		y += dyUp-dyDown;
 		if (mouseReleased == true) {
-			count-=2;
+			count--;
 			y-=count;
 		}
 		if (mousePressed == true) {
-			count = 15;
-			
+			count = 19;
+
 		}
 		if (this.y >= this.floor) {
-	        //dont go beneath the floor
-	        this.y = this.floor;
-	    }
+					//dont go beneath the floor
+					this.y = this.floor;
+			}
 		if (this.y <= this.top) {
-	        //dont go beneath the floor
-	        this.y = this.top;
-	    }
+					//dont go beneath the floor
+					this.y = this.top;
+			}
 	}
-	
+
 //	public void move() {
 //        // change velocity by the gravity
 //        this.dyUp += dyDown;

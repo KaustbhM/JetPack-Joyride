@@ -153,7 +153,7 @@ public class GamePanel extends JPanel implements ActionListener {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_SPACE || key == KeyEvent.VK_UP) {
-          caveman.dyUp = -20;
+          caveman.dyUp = -15;
         }
       }
 
@@ -166,7 +166,7 @@ public class GamePanel extends JPanel implements ActionListener {
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
-        caveman.dyUp = -10;
+        caveman.dyUp = -15;
         caveman.mousePressed = true;
         caveman.mouseReleased = false;
 

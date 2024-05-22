@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
   private Image backgroundImage;
   private int bgX = 0;
-  private final int SPEED = 1;
+  private final int SPEED = 2;
 
 
   // Obstacle Related Variables
@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements ActionListener {
     obstacles = new ArrayList<Obstacle>();
     obstacles.add(new Block(1, 200, 50, 50, 800));
 
-    time = new Timer(5, this);
+    time = new Timer(1, this);
     time.start();
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);
@@ -124,7 +124,7 @@ public class GamePanel extends JPanel implements ActionListener {
       // g.drawImage(block, 400, 400, 50, 50, null);
     }
 
-    System.out.println("Outside obstacles");
+    // System.out.println("Outside obstacles");
     // createComponents();
   }
 

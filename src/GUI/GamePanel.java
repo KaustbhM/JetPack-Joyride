@@ -31,8 +31,11 @@ public class GamePanel extends JPanel implements ActionListener {
   private Timer time;
 
   private Image backgroundImage;
+  private Image floorImg;
   private int bgX = 0;
-  private final int SPEED = 2;
+  private int flX = 0;
+  private final int BSPEED = 2;
+  private final int SPEED = 5;
 
 
   // Obstacle Related Variables
@@ -49,10 +52,11 @@ public class GamePanel extends JPanel implements ActionListener {
   private static final int BTN_SIZE = 50;
   private Random random = new Random();
 
+
   public GamePanel() {
     addEventHandlers();
     backgroundImage = new ImageIcon(getClass().getResource("cave.jpg")).getImage();
-
+    floorImg = new ImageIcon(getClass().getResource("floor.jpg")).getImage();
     if (backgroundImage.getWidth(null) == -1) {
       System.out.println("Image not loaded properly");
     }
@@ -77,6 +81,7 @@ public class GamePanel extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     // String s = e.getActionCommand();
     moveBackground();
+    moveFloor();
     caveman.move();
     updateObstacles();
     moveObstacles();
@@ -93,8 +98,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
     // Draw the continuous looping background
     twoD.drawImage(backgroundImage, bgX, 0, null);
+    twoD.drawImage(floorImg, flX, 548, null);
 
-    // g.drawImage(backgroundImage, bgX, 0, 1920, 1080, null);
     if (bgX < 0) {
       twoD.drawImage(backgroundImage, bgX + backgroundImage.getWidth(null), 0, null);
 
@@ -121,6 +126,8 @@ public class GamePanel extends JPanel implements ActionListener {
       g.setColor(Color.BLUE);
       int[] definitions = obstacle.getDefinitions();
       g.drawImage(block, definitions[0], definitions[1], definitions[2], definitions[3], null);
+      twoD.drawImage(floorImg, flX, 548, null);
+      twoD.drawImage(floorImg, flX+floorImg.getWidth(null), 548, null);
       // g.drawImage(block, 400, 400, 50, 50, null);
     }
 
@@ -187,11 +194,17 @@ public class GamePanel extends JPanel implements ActionListener {
 
   // New Code
   private void moveBackground() {
-    bgX -= SPEED;
+    bgX -= BSPEED;
     if (bgX == -backgroundImage.getWidth(null)) {
       bgX = 0;
     }
   }
+  private void moveFloor() {
+	    flX -= SPEED;
+	    if (flX == -floorImg.getWidth(null)) {
+	      flX = 0;
+	    }
+	  }
 
   public void drawCoin(Graphics g) {
 

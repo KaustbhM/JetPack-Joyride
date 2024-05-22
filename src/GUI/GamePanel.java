@@ -117,7 +117,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     // Draw obstacles
     for (Obstacle obstacle : obstacles) {
-      System.out.println("Drawing obstacle at: " + obstacle.getPlayerCoordY());
+      // System.out.println("Drawing obstacle at: " + obstacle.getPlayerCoordY());
       g.setColor(Color.BLUE);
       int[] definitions = obstacle.getDefinitions();
       g.drawImage(block, definitions[0], definitions[1], definitions[2], definitions[3], null);

@@ -18,25 +18,27 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Characters.Caveman;
 import Characters.Character;
+import Characters.Coin;
 import Characters.Obstacle;
 import Characters.Block;
 
 public class GamePanel extends JPanel implements ActionListener {
 
   private JButton startBtn = new JButton();
+
   Caveman caveman = new Caveman();
+
   private Timer time;
 
   private Image backgroundImage;
-  private Image floorImg;
   private int bgX = 0;
-  private int flX = 0;
-  private final int BSPEED = 2;
-  private final int SPEED = 5;
+  private final int SPEED = 1;
 
+  public boolean gameOver = false;
 
   // Obstacle Related Variables
   Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,20 +48,28 @@ public class GamePanel extends JPanel implements ActionListener {
   private int obstacleCheckpoint = (int) screenSize.getWidth() / 2;
   private BufferedImage block;
   private int difficulty = Constants.INIT_DIFFICULTY;
+  // private int[] obstacleDimensions = { (int) (maxHeight * .1), (int) (maxHeight
+  // * .125), (int) (maxHeight * .2),
+  // (int) (maxHeight * .25), (int) (maxHeight * .325) };
   private int[] obstacleDimensions = { (int) (maxHeight * .1), (int) (maxHeight * .125), (int) (maxHeight * .2),
-      (int) (maxHeight * .25), (int) (maxHeight * .325) };
+      (int) (maxHeight * .25) };
+
+  // Coin Related Variable
+  private int coins;
+  private BufferedImage coin;
 
   private static final int BTN_SIZE = 50;
   private Random random = new Random();
 
-
   public GamePanel() {
     addEventHandlers();
     backgroundImage = new ImageIcon(getClass().getResource("cave.jpg")).getImage();
-    floorImg = new ImageIcon(getClass().getResource("floor.jpg")).getImage();
+
     if (backgroundImage.getWidth(null) == -1) {
       System.out.println("Image not loaded properly");
     }
+
+    coins = 0;
 
     // Load all images
     loadImages();
@@ -69,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener {
     obstacles = new ArrayList<Obstacle>();
     obstacles.add(new Block(1, 200, 50, 50, 800));
 
-    time = new Timer(1, this);
+    time = new Timer(5, this);
     time.start();
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);
@@ -81,10 +91,10 @@ public class GamePanel extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     // String s = e.getActionCommand();
     moveBackground();
-    moveFloor();
     caveman.move();
     updateObstacles();
     moveObstacles();
+    detectCollison();
     repaint();
 
   }
@@ -98,8 +108,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
     // Draw the continuous looping background
     twoD.drawImage(backgroundImage, bgX, 0, null);
-    twoD.drawImage(floorImg, flX, 548, null);
 
+    // g.drawImage(backgroundImage, bgX, 0, 1920, 1080, null);
     if (bgX < 0) {
       twoD.drawImage(backgroundImage, bgX + backgroundImage.getWidth(null), 0, null);
 
@@ -122,17 +132,35 @@ public class GamePanel extends JPanel implements ActionListener {
 
     // Draw obstacles
     for (Obstacle obstacle : obstacles) {
-      // System.out.println("Drawing obstacle at: " + obstacle.getPlayerCoordY());
+
+      String obstacleType = obstacle.getClass().getName();
+
       g.setColor(Color.BLUE);
       int[] definitions = obstacle.getDefinitions();
-      g.drawImage(block, definitions[0], definitions[1], definitions[2], definitions[3], null);
-      twoD.drawImage(floorImg, flX, 548, null);
-      twoD.drawImage(floorImg, flX+floorImg.getWidth(null), 548, null);
+      if (obstacleType.equals("Characters.Block")) {
+        g.drawImage(block, definitions[0], definitions[1], definitions[2], definitions[3], null);
+      }
+      if (obstacleType.equals("Characters.Coin")) {
+        g.drawImage(coin, definitions[0], definitions[1], definitions[2], definitions[3], null);
+      }
       // g.drawImage(block, 400, 400, 50, 50, null);
+
     }
 
-    // System.out.println("Outside obstacles");
+    // Update the coin score
+    drawCoinScore(g);
+
     // createComponents();
+  }
+
+  private void drawCoinScore(Graphics g) {
+    // Update the coin score
+    g.drawImage(coin, maxWidth - 1000, 30, 30, 30, null);
+    g.setColor(Color.black);
+
+    Font font = new Font("Arial", Font.BOLD, 15);
+    g.setFont(font);
+    g.drawString(String.valueOf(coins), maxWidth - 1000 + 10, 49);
   }
 
   public void createComponents() {
@@ -194,17 +222,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
   // New Code
   private void moveBackground() {
-    bgX -= BSPEED;
+    bgX -= SPEED;
     if (bgX == -backgroundImage.getWidth(null)) {
       bgX = 0;
     }
   }
-  private void moveFloor() {
-	    flX -= SPEED;
-	    if (flX == -floorImg.getWidth(null)) {
-	      flX = 0;
-	    }
-	  }
 
   public void drawCoin(Graphics g) {
 
@@ -214,6 +236,7 @@ public class GamePanel extends JPanel implements ActionListener {
     // block = new ImageIcon(getClass().getResource("block.png")).getImage();
     try {
       block = ImageIO.read(getClass().getResourceAsStream("block.png"));
+      coin = ImageIO.read(getClass().getResourceAsStream("coin.png"));
     } catch (Exception ex) {
       ex.printStackTrace();
 
@@ -261,34 +284,11 @@ public class GamePanel extends JPanel implements ActionListener {
    * 
    * } }
    */
-  private void updateObstacles_bkp() {
-    // Increase the speed of obstacles as time progresses
-    if (time.getDelay() > 1) {
-      time.setDelay(time.getDelay() - 1); // Decrease delay to increase speed
-    }
 
-    // Check if we need to add new obstacles
-    int[] lastObstacleDefinitions = obstacles.get(obstacles.size() - 1).getDefinitions();
-    if (lastObstacleDefinitions[0] < maxWidth - obstacleCheckpoint) {
-      int numOfObstacles = random.nextInt(4) + 1; // Random number between 1 and 4
-
-      for (int i = 0; i < numOfObstacles; i++) {
-        int width = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-        int height = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-        int x = maxWidth;
-        int y = random.nextInt(maxHeight - height);
-
-        obstacles.add(new Block(1, y, width, height, maxWidth));
-      }
-
-      obstacleCheckpoint = maxWidth + random.nextInt(maxWidth / 2); // Set a new checkpoint for adding obstacles
-    }
-  }
-
-  private void updateObstacles() {
+  private void updateObstacles_backup3() {
     // Increase the speed and frequency of obstacles as time progresses
-      if (time.getDelay() > 1) {
-      time.setDelay(time.getDelay() - 1); // Decrease delay to increase speed
+    if (time.getDelay() > 1) {
+      time.setDelay(time.getDelay() - 100); // Decrease delay to increase speed
     }
 
     // Check if we need to add new obstacles
@@ -305,6 +305,15 @@ public class GamePanel extends JPanel implements ActionListener {
         int y = (maxHeight - height) / 2; // Centered vertically
 
         obstacles.add(new Block(1, y, width, height, maxWidth));
+
+        // Add coins following the obstacle
+        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
+        int coinDiameter = 30; // Diameter of each coin
+        for (int i = 0; i < numCoins; i++) {
+          int coinX = x + width + (i * coinDiameter * 2);
+          int coinY = y + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange in two rows
+          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
+        }
       } else {
         // Two groups, one at the top and one at the bottom
         int gapSize = 200; // Space for the sprite to pass through
@@ -312,16 +321,30 @@ public class GamePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < totalObstacles; i++) {
           int width = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-          int height = obstacleHeight;
+          // int height = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
+          int height = width;
           int x = maxWidth;
-          int topBound = Math.max(1, obstacleHeight - height); // Ensure the bound is positive
-                  int yTop = random.nextInt(topBound); // Top group
 
-                  int bottomBound = Math.max(1, obstacleHeight - height); // Ensure the bound is positive
-                    int yBottom = maxHeight - obstacleHeight + random.nextInt(bottomBound); // Bottom group
+          int topBound = obstacleHeight - height;
+          int yTop = random.nextInt(Math.max(1, topBound)); // Top group
+
+          int bottomBound = obstacleHeight - height;
+          int yBottom = maxHeight - obstacleHeight + random.nextInt(Math.max(1, bottomBound)); // Bottom group
 
           obstacles.add(new Block(1, yTop, width, height, maxWidth));
           obstacles.add(new Block(1, yBottom, width, height, maxWidth));
+        }
+
+        // Add coins in the center when there are two groups of obstacles
+        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
+        int coinDiameter = 30; // Diameter of each coin
+        for (int i = 0; i < numCoins; i++) {
+          int coinX = maxWidth + (i * coinDiameter * 2);
+          int coinY = (maxHeight / 2) - (coinDiameter / 2) + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange
+                                                          // in
+                                                          // two
+                                                          // rows
+          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
         }
       }
 
@@ -329,5 +352,113 @@ public class GamePanel extends JPanel implements ActionListener {
     }
   }
 
+  private void updateObstacles() {
+    // Increase the speed and frequency of obstacles as time progresses
+    if (time.getDelay() > 1) {
+      time.setDelay(time.getDelay() - 1); // Decrease delay to increase speed
+    }
+
+    // Check if we need to add new obstacles
+    int[] lastObstacleDefinitions = obstacles.get(obstacles.size() - 1).getDefinitions();
+    if (lastObstacleDefinitions[0] < maxWidth - obstacleCheckpoint) {
+      int numGroups = random.nextInt(2) + 1; // Random number between 1 and 2 for groups
+      int totalObstacles = random.nextInt(4) + 1; // Random number between 1 and 4 for obstacles per group
+
+      int squareSize = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
+      int gapBetweenObstacles = 10; // Gap between obstacles in a group
+      int x = maxWidth;
+
+      if (numGroups == 1) {
+        // One group centered vertically
+        int y = (maxHeight / 2) - (squareSize / 2); // Centered vertically
+
+        System.out.println("Group = 1" + " No of Obstacles " + totalObstacles);
+        for (int i = 0; i < totalObstacles; i++) {
+          int yOffset = (i % 2 == 0) ? -squareSize - gapBetweenObstacles : squareSize + gapBetweenObstacles;
+          obstacles.add(new Block(1, y + yOffset, squareSize, squareSize, x));
+          x += squareSize + gapBetweenObstacles; // Move x right for the next square
+        }
+
+        // Add coins following the obstacle
+        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
+        int coinDiameter = 30; // Diameter of each coin
+        for (int i = 0; i < numCoins; i++) {
+          int coinX = x + (i * coinDiameter * 2);
+          int coinY = y + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange in two rows
+          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
+        }
+      } else {
+        System.out.println("Group = 2" + " No of Obstacles " + totalObstacles);
+        // Two groups, one at the top and one at the bottom
+        int gapSize = 200; // Space for the sprite to pass through
+        int topY = (maxHeight / 2) - gapSize / 2 - squareSize - gapBetweenObstacles;
+        int bottomY = (maxHeight / 2) + gapSize / 2 + gapBetweenObstacles;
+
+        for (int i = 0; i < totalObstacles; i++) {
+
+          obstacles.add(new Block(1, topY, squareSize, squareSize, x));
+          obstacles.add(new Block(1, bottomY, squareSize, squareSize, x));
+          x += squareSize + gapBetweenObstacles; // Move x right for the next square
+        }
+
+        // Add coins in the center when there are two groups of obstacles
+        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
+        int coinDiameter = 30; // Diameter of each coin
+        for (int i = 0; i < numCoins; i++) {
+          int coinX = maxWidth + (i * coinDiameter * 2);
+          int coinY = (maxHeight / 2) - (coinDiameter / 2) + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange
+                                                          // in
+                                                          // two
+                                                          // rows
+          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
+        }
+      }
+
+      obstacleCheckpoint = maxWidth + random.nextInt(maxWidth / 2); // Set a new checkpoint for adding obstacles
+    }
+  }
+
+  private boolean detectCollison() {
+    // Only coins
+    List<Obstacle> obstaclesToRemove = new ArrayList<>();
+
+    Iterator<Obstacle> it = obstacles.iterator();
+    ArrayList<Integer[]> points = caveman.getPoints();
+//		for (int i = 0; i < obstacles.size(); i++) {
+    while (it.hasNext()) {
+//			if (obstacles.get(i).potentialCollison()) { 
+      Obstacle obstacle = it.next();
+      if (obstacle.potentialCollison()) {
+        // this line makes it so it won't check for collisions when the object is too
+        // far away
+        for (Integer[] coord : points) {
+          if (obstacle.contains(coord[0], coord[1])) {
+            if (obstacle.getId() == 2) {
+              coins += 1;
+              // it.remove();
+              obstaclesToRemove.add(obstacle); // Mark for removal
+              // i-- insures nothing is skipped in array when there is a deletion
+//							i--;
+            } else {
+              // game ends here
+              time.stop();
+              gameOver = true;
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    // Remove all marked obstacles
+    obstacles.removeAll(obstaclesToRemove);
+
+    return false;
+
+  }
+
+  public boolean getGameStatus() {
+    return gameOver;
+  }
 
 }

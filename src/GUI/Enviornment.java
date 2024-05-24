@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import java.util.ArrayList;
 
@@ -22,9 +23,13 @@ public class Enviornment extends JFrame {
 	private GamePanel panel;
 
 	private StartPanel startPanel;
+
 	// private BackgroundPanel backgroundPanel;
+
 	private static volatile boolean done = false;
 	private static int delay = 20;
+
+	Timer progress;
 
 	public static void startGUI() throws InterruptedException {
 		Enviornment theGUI = new Enviornment();
@@ -35,30 +40,7 @@ public class Enviornment extends JFrame {
 	}
 
 	public void createFrame(Object semaphore) {
-		/**
-		 * try { backgroundImage =
-		 * ImageIO.read(getClass().getResourceAsStream("cave.jpg")); } catch
-		 * (IOException e) { e.printStackTrace(); }
-		 * 
-		 * this.setSize(backgroundImage.getWidth(), backgroundImage.getHeight());
-		 * this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 * 
-		 * panel = new GamePanel();
-		 * 
-		 * panel.setBounds(0, 0, 1920, 1080); add(panel); panel.setVisible(false);
-		 * 
-		 * // Set the current panel and make it visible
-		 * 
-		 * panel.setVisible(true);
-		 * 
-		 * // Set this JFrame to be visible this.setVisible(true);
-		 * 
-		 * System.out.println("All done creating our frame"); // tell the main thread
-		 * that we are done creating our dialogs. // This allows the main thread to stop
-		 * wait()'ing. synchronized (semaphore) { semaphore.notify(); }
-		 */
 
-		/*** My changes ***/
 		try {
 			backgroundImage = ImageIO.read(getClass().getResourceAsStream("cave.jpg"));
 		} catch (IOException e) {
@@ -115,6 +97,9 @@ public class Enviornment extends JFrame {
 		});
 	}
 
+	/**
+	 * 
+	 */
 	private void startGame() {
 
 	 panel = new GamePanel();
@@ -128,6 +113,35 @@ public class Enviornment extends JFrame {
 	 this.setContentPane(panel);
 
 	 revalidate();
+
+	 progress = new javax.swing.Timer(5000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (panel.getGameStatus()) {
+
+					// EndGamePanel endPanel = new EndGamePanel();
+					JButton endButton = new JButton();
+					endButton.setBackground(Color.black);
+					endButton.setBorderPainted(false);
+					setLayout(null);
+					endButton.setBounds(370, 450, 250, 100);
+					panel.add(endButton);
+					try {
+						Image img = ImageIO.read(getClass().getResourceAsStream("GameOver.jpeg"));
+						endButton.setIcon(new ImageIcon(img));
+					} catch (Exception ex) {
+						System.out.println(ex);
+					}
+
+					// setContentPane(endPanel);
+
+					revalidate();
+					progress.stop();
+
+				}
+			}
+		});
+
+	 progress.start();
 
 	}
 

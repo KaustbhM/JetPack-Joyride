@@ -47,5 +47,11 @@ public class Block extends Obstacle{
     int[] definition = {x, y ,width, height};
     return definition;
   }
+
+@Override
+public int getX() {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
 

@@ -36,9 +36,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
   private Image backgroundImage;
   private int bgX = 0;
-  private final int SPEED = 1;
+  private final int BSPEED = 2;
+  private final int SPEED = 5;
 
   public boolean gameOver = false;
+  
+  private Image floorImg;
+  private int flX = 0;
 
   // Obstacle Related Variables
   Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -64,7 +68,7 @@ public class GamePanel extends JPanel implements ActionListener {
   public GamePanel() {
     addEventHandlers();
     backgroundImage = new ImageIcon(getClass().getResource("cave.jpg")).getImage();
-
+    floorImg = new ImageIcon(getClass().getResource("floor.jpg")).getImage();
     if (backgroundImage.getWidth(null) == -1) {
       System.out.println("Image not loaded properly");
     }
@@ -92,6 +96,7 @@ public class GamePanel extends JPanel implements ActionListener {
     // String s = e.getActionCommand();
     moveBackground();
     caveman.move();
+    moveFloor();
     updateObstacles();
     moveObstacles();
     detectCollison();
@@ -144,9 +149,10 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawImage(coin, definitions[0], definitions[1], definitions[2], definitions[3], null);
       }
       // g.drawImage(block, 400, 400, 50, 50, null);
-
+      twoD.drawImage(floorImg, flX, 548, null);
+      twoD.drawImage(floorImg, flX+floorImg.getWidth(null), 548, null);
     }
-
+    
     // Update the coin score
     drawCoinScore(g);
 
@@ -222,7 +228,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
   // New Code
   private void moveBackground() {
-    bgX -= SPEED;
+    bgX -= BSPEED;
     if (bgX == -backgroundImage.getWidth(null)) {
       bgX = 0;
     }
@@ -461,4 +467,11 @@ public class GamePanel extends JPanel implements ActionListener {
     return gameOver;
   }
 
+  
+  private void moveFloor() {
+      flX -= SPEED;
+      if (flX == -floorImg.getWidth(null)) {
+        flX = 0;
+      }
+    }
 }

@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements ActionListener {
   private Image backgroundImage;
   private int bgX = 0;
   private final int BSPEED = 2;
-  private final int SPEED = 5;
+  private final int SPEED = 20;
 
   public boolean gameOver = false;
   
@@ -254,7 +254,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
   private void moveObstacles() {
     for (Obstacle obstacle : obstacles) {
-      obstacle.iterate();
+      obstacle.iterate(SPEED);
     }
   }
 

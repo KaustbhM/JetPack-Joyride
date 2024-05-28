@@ -24,7 +24,7 @@ public class Caveman {
 	public boolean mouseReleased;
 	public boolean mousePressed;
 	public Caveman() {
-		x = 20;
+		x = 350;
 		y = 200;
 	}
 

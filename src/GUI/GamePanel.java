@@ -83,7 +83,7 @@ public class GamePanel extends JPanel implements ActionListener {
     obstacles = new ArrayList<Obstacle>();
     obstacles.add(new Block(1, 200, 50, 50, 800));
 
-    time = new Timer(5, this);
+    time = new Timer(1, this);
     time.start();
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);

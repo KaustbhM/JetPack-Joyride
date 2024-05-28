@@ -24,7 +24,7 @@ public class Block extends Obstacle{
   }
   @Override
   public boolean contains(int x, int y) {
-    if (x > this.x && x < this.x + width && y > this.y && y < this.y + height) {
+    if (x + 25 > this.x && x + 25 < this.x + width && y +25 > this.y && y + 25 < this.y + height) {
       return true;
     }
     return false;

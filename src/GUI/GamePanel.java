@@ -189,24 +189,26 @@ public class GamePanel extends JPanel implements ActionListener {
     // and override just the one method we're interested in.
 
     this.addKeyListener(new KeyAdapter() {
-      @Override
-      public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
+    	      @Override
+    	      public void keyPressed(KeyEvent e) {
+    	    	  
+    	        caveman.dyUp = -15;
+    	        caveman.mousePressed = true;
+    	        caveman.mouseReleased = false;
 
-        if (key == KeyEvent.VK_SPACE || key == KeyEvent.VK_UP) {
-          caveman.dyUp = -15;
-        }
-      }
+    	      }
 
-      @Override
-      public void keyReleased(KeyEvent e) {
-        caveman.dyUp = 5;
-      }
-    });
-
+    	      @Override
+    	      public void keyReleased(KeyEvent e) {
+    	        caveman.dyUp = 5;
+    	        caveman.mouseReleased = true;
+    	        caveman.mousePressed = false;
+    	      }
+    	    });
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
+    	  
         caveman.dyUp = -15;
         caveman.mousePressed = true;
         caveman.mouseReleased = false;

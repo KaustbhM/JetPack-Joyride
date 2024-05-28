@@ -64,12 +64,6 @@ public class Coin extends Obstacle{
     return definition;
   }
 
-@Override
-public int getX() {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
 }
 
 

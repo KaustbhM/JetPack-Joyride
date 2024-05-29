@@ -45,8 +45,8 @@ public class Coin extends Obstacle{
   }
 
   @Override
-  public void iterate() {
-    x -= 5;
+  public void iterate(int speed) {
+    x -= speed;
 
   }
 

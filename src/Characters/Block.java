@@ -30,8 +30,8 @@ public class Block extends Obstacle{
     return false;
   }
   @Override
-  public void iterate() {
-    x -= 5;
+  public void iterate(int speed) {
+    x -= speed;
   }
   @Override
   public boolean invalidObstacle() {
@@ -47,11 +47,5 @@ public class Block extends Obstacle{
     int[] definition = {x, y ,width, height};
     return definition;
   }
-
-@Override
-public int getX() {
-	// TODO Auto-generated method stub
-	return 0;
-}
 }
 

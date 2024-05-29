@@ -25,7 +25,6 @@ import Characters.Character;
 import Characters.Coin;
 import Characters.Obstacle;
 import Characters.Block;
-import Characters.Bat;
 
 public class GamePanel extends JPanel implements ActionListener {
 
@@ -52,7 +51,6 @@ public class GamePanel extends JPanel implements ActionListener {
   private ArrayList<Obstacle> obstacles;
   private int obstacleCheckpoint = (int) screenSize.getWidth() / 2;
   private BufferedImage block;
-  private BufferedImage bat;
   private int difficulty = Constants.INIT_DIFFICULTY;
   // private int[] obstacleDimensions = { (int) (maxHeight * .1), (int) (maxHeight
   // * .125), (int) (maxHeight * .2),
@@ -124,11 +122,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     BufferedImage man = null;
     BufferedImage fire = null;
-    
     try {
       man = ImageIO.read(getClass().getResourceAsStream("caveman.png"));
       fire = ImageIO.read(getClass().getResourceAsStream("fire.png"));
-      
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -151,9 +147,6 @@ public class GamePanel extends JPanel implements ActionListener {
       }
       if (obstacleType.equals("Characters.Coin")) {
         g.drawImage(coin, definitions[0], definitions[1], definitions[2], definitions[3], null);
-      }
-      if(obstacleType.equals("Character.Bat")) {
-    	  g.drawImage(bat, definitions[0], definitions[1], definitions[2], definitions[3], null);
       }
       // g.drawImage(block, 400, 400, 50, 50, null);
       twoD.drawImage(floorImg, flX, 548, null);
@@ -252,7 +245,6 @@ public class GamePanel extends JPanel implements ActionListener {
     try {
       block = ImageIO.read(getClass().getResourceAsStream("rock.png"));
       coin = ImageIO.read(getClass().getResourceAsStream("coin.png"));
-      bat = ImageIO.read(getClass().getResourceAsStream("bat.png"));
     } catch (Exception ex) {
       ex.printStackTrace();
 
@@ -266,108 +258,6 @@ public class GamePanel extends JPanel implements ActionListener {
     }
   }
 
-  /**
-   * private void updateObstacles() { int[] lastObstacleDefinitions =
-   * obstacles.get(obstacles.size() - 1).getDefinitions();
-   * 
-   * if (2 * lastObstacleDefinitions[0] < obstacleCheckpoint + (difficulty * 0.2 *
-   * obstacleCheckpoint)) {
-   * 
-   * int numOfObstacles =
-   * Constants.OBSTACLE_NUMBERS[random.nextInt(Constants.OBSTACLE_NUMBERS.length)];
-   * 
-   * int obstacleDimension =
-   * obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-   * 
-   * if (numOfObstacles == 1) { obstacles.add(new Block(1, maxHeight/2,
-   * obstacleDimension, obstacleDimension, maxWidth));
-   * 
-   * }
-   * 
-   * if (numOfObstacles == 2) {
-   * 
-   * obstacles.add(new Block(1, 0, obstacleDimension, obstacleDimension,
-   * maxWidth)); obstacles.add(new Block(1, maxHeight - obstacleDimension,
-   * obstacleDimension, obstacleDimension, maxWidth)); }
-   * 
-   * if (numOfObstacles == 3) {
-   * 
-   * }
-   * 
-   * if (numOfObstacles == 4) {
-   * 
-   * }
-   * 
-   * } }
-   */
-
-  private void updateObstacles_backup3() {
-    // Increase the speed and frequency of obstacles as time progresses
-    if (time.getDelay() > 1) {
-      time.setDelay(time.getDelay() - 100); // Decrease delay to increase speed
-    }
-
-    // Check if we need to add new obstacles
-    int[] lastObstacleDefinitions = obstacles.get(obstacles.size() - 1).getDefinitions();
-    if (lastObstacleDefinitions[0] < maxWidth - obstacleCheckpoint) {
-      int numGroups = random.nextInt(2) + 1; // Random number between 1 and 2 for groups
-      int totalObstacles = random.nextInt(4) + 1; // Random number between 1 and 4 for obstacles per group
-
-      if (numGroups == 1) {
-        // One group centered vertically
-        int width = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-        int height = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-        int x = maxWidth;
-        int y = (maxHeight - height) / 2; // Centered vertically
-
-        obstacles.add(new Block(1, y, width, height, maxWidth));
-
-        // Add coins following the obstacle
-        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
-        int coinDiameter = 30; // Diameter of each coin
-        for (int i = 0; i < numCoins; i++) {
-          int coinX = x + width + (i * coinDiameter * 2);
-          int coinY = y + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange in two rows
-          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
-        }
-      } else {
-        // Two groups, one at the top and one at the bottom
-        int gapSize = 200; // Space for the sprite to pass through
-        int obstacleHeight = (maxHeight - gapSize) / 2;
-
-        for (int i = 0; i < totalObstacles; i++) {
-          int width = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-          // int height = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
-          int height = width;
-          int x = maxWidth;
-
-          int topBound = obstacleHeight - height;
-          int yTop = random.nextInt(Math.max(1, topBound)); // Top group
-
-          int bottomBound = obstacleHeight - height;
-          int yBottom = maxHeight - obstacleHeight + random.nextInt(Math.max(1, bottomBound)); // Bottom group
-
-          obstacles.add(new Block(1, yTop, width, height, maxWidth));
-          obstacles.add(new Block(1, yBottom, width, height, maxWidth));
-        }
-
-        // Add coins in the center when there are two groups of obstacles
-        int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
-        int coinDiameter = 30; // Diameter of each coin
-        for (int i = 0; i < numCoins; i++) {
-          int coinX = maxWidth + (i * coinDiameter * 2);
-          int coinY = (maxHeight / 2) - (coinDiameter / 2) + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange
-                                                          // in
-                                                          // two
-                                                          // rows
-          obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
-        }
-      }
-
-      obstacleCheckpoint = maxWidth + random.nextInt(maxWidth / 2); // Set a new checkpoint for adding obstacles
-    }
-  }
-
   private void updateObstacles() {
     // Increase the speed and frequency of obstacles as time progresses
     if (time.getDelay() > 1) {
@@ -377,23 +267,21 @@ public class GamePanel extends JPanel implements ActionListener {
     // Check if we need to add new obstacles
     int[] lastObstacleDefinitions = obstacles.get(obstacles.size() - 1).getDefinitions();
     if (lastObstacleDefinitions[0] < maxWidth - obstacleCheckpoint) {
-      int numGroups = random.nextInt(3) + 1; // Random number between 1 and 2 for groups
+      int numGroups = random.nextInt(2) + 1; // Random number between 1 and 2 for groups
       int totalObstacles = random.nextInt(4) + 1; // Random number between 1 and 4 for obstacles per group
 
       int squareSize = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
       int gapBetweenObstacles = 10; // Gap between obstacles in a group
       int x = maxWidth;
-     
+
       if (numGroups == 1) {
         // One group centered vertically
         int y = (maxHeight / 2) - (squareSize / 2); // Centered vertically
-        obstacles.add(new Bat(1, y, 100, 100, x - 50));
+
         System.out.println("Group = 1" + " No of Obstacles " + totalObstacles);
         for (int i = 0; i < totalObstacles; i++) {
           int yOffset = (i % 2 == 0) ? -squareSize - gapBetweenObstacles : squareSize + gapBetweenObstacles;
           obstacles.add(new Block(1, y + yOffset, squareSize, squareSize, x));
-          // Putting Bat
-          obstacles.add(new Bat(1, y, 100, 100, x - 50));
           x += squareSize + gapBetweenObstacles; // Move x right for the next square
         }
 
@@ -405,26 +293,20 @@ public class GamePanel extends JPanel implements ActionListener {
           int coinY = y + (i % 2 == 0 ? -coinDiameter : coinDiameter); // Arrange in two rows
           obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
         }
-      } else if(numGroups == 2){
+      } else {
         System.out.println("Group = 2" + " No of Obstacles " + totalObstacles);
         // Two groups, one at the top and one at the bottom
-        int gapSize = 200; // Space for the sprite to pass through
+        int gapSize = 100; // Space for the sprite to pass through
         int topY = (maxHeight / 2) - gapSize / 2 - squareSize - gapBetweenObstacles;
         int bottomY = (maxHeight / 2) + gapSize / 2 + gapBetweenObstacles;
 
         for (int i = 0; i < totalObstacles; i++) {
 
           obstacles.add(new Block(1, topY, squareSize, squareSize, x));
-          obstacles.add(new Block(1, bottomY, squareSize, squareSize, x));
-          
-        //*NEW CODE FOR BAT OBSTACLES*//
-          obstacles.add(new Bat(1, topY, 100, 100, x - 50));
+          //obstacles.add(new Block(1, bottomY, squareSize, squareSize, x));
           x += squareSize + gapBetweenObstacles; // Move x right for the next square
         }
 
-        
-
-        
         // Add coins in the center when there are two groups of obstacles
         int numCoins = random.nextInt(10) + 1; // Random number of coins between 1 and 10
         int coinDiameter = 30; // Diameter of each coin
@@ -437,7 +319,6 @@ public class GamePanel extends JPanel implements ActionListener {
           obstacles.add(new Coin(2, coinX, coinY, coinDiameter));
         }
       }
-      //* If statement ends
 
       obstacleCheckpoint = maxWidth + random.nextInt(maxWidth / 2); // Set a new checkpoint for adding obstacles
     }

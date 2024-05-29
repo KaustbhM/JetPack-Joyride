@@ -243,7 +243,7 @@ public class GamePanel extends JPanel implements ActionListener {
   private void loadImages() {
     // block = new ImageIcon(getClass().getResource("block.png")).getImage();
     try {
-      block = ImageIO.read(getClass().getResourceAsStream("block.png"));
+      block = ImageIO.read(getClass().getResourceAsStream("rock.png"));
       coin = ImageIO.read(getClass().getResourceAsStream("coin.png"));
     } catch (Exception ex) {
       ex.printStackTrace();

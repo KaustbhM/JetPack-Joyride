@@ -22,7 +22,6 @@ public class Enviornment extends JFrame {
 
 	private GamePanel panel;
 
-	private StartPanel startPanel;
 
 	// private BackgroundPanel backgroundPanel;
 
@@ -51,10 +50,8 @@ public class Enviornment extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-		buildStartScreen();
-
 		// Add startPanel to the frame
-		this.setContentPane(startPanel);
+		this.setContentPane(buildStartScreen());
 
 
 		// Set this JFrame to be visible
@@ -71,9 +68,9 @@ public class Enviornment extends JFrame {
 
 	}
 
-	private void buildStartScreen() {
+	private JPanel buildStartScreen() {
 
-		startPanel = new StartPanel();
+		 JPanel startPanel = new StartPanel();
 
 		// Add buttons to start panel
 		JButton startButton = new JButton();
@@ -92,9 +89,11 @@ public class Enviornment extends JFrame {
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startGame();
+				
 				revalidate();
 			}
 		});
+		return startPanel;
 	}
 
 	/**

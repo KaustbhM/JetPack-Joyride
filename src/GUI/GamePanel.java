@@ -188,27 +188,11 @@ public class GamePanel extends JPanel implements ActionListener {
     // to get around having implement all, we use the MouseAdapter class
     // and override just the one method we're interested in.
 
-    this.addKeyListener(new KeyAdapter() {
-    	      @Override
-    	      public void keyPressed(KeyEvent e) {
-    	    	  
-    	        caveman.dyUp = -15;
-    	        caveman.mousePressed = true;
-    	        caveman.mouseReleased = false;
-
-    	      }
-
-    	      @Override
-    	      public void keyReleased(KeyEvent e) {
-    	        caveman.dyUp = 5;
-    	        caveman.mouseReleased = true;
-    	        caveman.mousePressed = false;
-    	      }
-    	    });
+    
     this.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
-    	  
+    	  System.out.println("hi");
         caveman.dyUp = -15;
         caveman.mousePressed = true;
         caveman.mouseReleased = false;
@@ -222,6 +206,24 @@ public class GamePanel extends JPanel implements ActionListener {
         caveman.mousePressed = false;
       }
     });
+    
+    this.addKeyListener(new KeyAdapter() {
+	      @Override
+	      public void keyPressed(KeyEvent e) {
+	    	  System.out.println("hi!");
+	        caveman.dyUp = -15;
+	        caveman.mousePressed = true;
+	        caveman.mouseReleased = false;
+
+	      }
+
+	      @Override
+	      public void keyReleased(KeyEvent e) {
+	        caveman.dyUp = 5;
+	        caveman.mouseReleased = true;
+	        caveman.mousePressed = false;
+	      }
+	    });
   }
 
   public void updateAnimation() {
@@ -268,7 +270,7 @@ public class GamePanel extends JPanel implements ActionListener {
     int[] lastObstacleDefinitions = obstacles.get(obstacles.size() - 1).getDefinitions();
     if (lastObstacleDefinitions[0] < maxWidth - obstacleCheckpoint) {
       int numGroups = random.nextInt(2) + 1; // Random number between 1 and 2 for groups
-      int totalObstacles = random.nextInt(4) + 1; // Random number between 1 and 4 for obstacles per group
+      int totalObstacles = random.nextInt(2) + 1; // Random number between 1 and 4 for obstacles per group
 
       int squareSize = obstacleDimensions[random.nextInt(obstacleDimensions.length)];
       int gapBetweenObstacles = 10; // Gap between obstacles in a group
@@ -277,11 +279,14 @@ public class GamePanel extends JPanel implements ActionListener {
       if (numGroups == 1) {
         // One group centered vertically
         int y = (maxHeight / 2) - (squareSize / 2); // Centered vertically
-
+        y = 100;
         System.out.println("Group = 1" + " No of Obstacles " + totalObstacles);
         for (int i = 0; i < totalObstacles; i++) {
           int yOffset = (i % 2 == 0) ? -squareSize - gapBetweenObstacles : squareSize + gapBetweenObstacles;
-          obstacles.add(new Block(1, y + yOffset, squareSize, squareSize, x));
+          if (y+yOffset <= 470) {
+        	  obstacles.add(new Block(1, y + yOffset, squareSize, squareSize, x));
+          }
+          obstacles.add(new Block(1, 470, squareSize, squareSize, x));
           x += squareSize + gapBetweenObstacles; // Move x right for the next square
         }
 

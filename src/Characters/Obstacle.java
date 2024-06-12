@@ -15,6 +15,7 @@ public abstract class Obstacle {
   abstract public void iterate(int speed);
   //this detects if the obstacle already passed the player and screen
   abstract public boolean invalidObstacle();
+  abstract public void iterate();
   abstract public int[] getDefinitions();
   public void updatePlayerCoordY(int playerCoordY) {
     this.playerCoordY = playerCoordY;

@@ -22,6 +22,7 @@ public class Enviornment extends JFrame {
 
 	private GamePanel panel;
 
+	private StartPanel startPanel;
 
 	// private BackgroundPanel backgroundPanel;
 
@@ -50,8 +51,10 @@ public class Enviornment extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
+		buildStartScreen();
+
 		// Add startPanel to the frame
-		this.setContentPane(buildStartScreen());
+		this.setContentPane(startPanel);
 
 
 		// Set this JFrame to be visible
@@ -68,16 +71,15 @@ public class Enviornment extends JFrame {
 
 	}
 
-	private JPanel buildStartScreen() {
+	private void buildStartScreen() {
 
-		 JPanel startPanel = new StartPanel();
+		startPanel = new StartPanel();
 
 		// Add buttons to start panel
 		JButton startButton = new JButton();
-		startButton.setBackground(Color.black);
 		startButton.setBorderPainted(false);
 		setLayout(null);
-		startButton.setBounds(370, 450, 250, 100);
+		startButton.setBounds(1,700, 250, 100);
 		startPanel.add(startButton);
 		try {
 			Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
@@ -89,11 +91,9 @@ public class Enviornment extends JFrame {
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startGame();
-				
 				revalidate();
 			}
 		});
-		return startPanel;
 	}
 
 	/**
@@ -122,10 +122,10 @@ public class Enviornment extends JFrame {
 					endButton.setBackground(Color.black);
 					endButton.setBorderPainted(false);
 					setLayout(null);
-					endButton.setBounds(370, 450, 250, 100);
+					endButton.setBounds(185, 450, 600, 100);
 					panel.add(endButton);
 					try {
-						Image img = ImageIO.read(getClass().getResourceAsStream("GameOver.jpeg"));
+						Image img = ImageIO.read(getClass().getResourceAsStream("GameOver.png"));
 						endButton.setIcon(new ImageIcon(img));
 					} catch (Exception ex) {
 						System.out.println(ex);
@@ -135,6 +135,7 @@ public class Enviornment extends JFrame {
 
 					revalidate();
 					progress.stop();
+					
 
 				}
 			}

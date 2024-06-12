@@ -42,7 +42,7 @@ public class BackgroundPanel extends JPanel implements ActionListener{
 	public void createComponents() {
 		this.setBackground(Color.gray);
 		setLayout(null);
-		startBtn.setBounds(750, 450, 400, 100);
+		//startBtn.setBounds(750, 450, 400, 100);
 		this.add(startBtn);
 	}
 }

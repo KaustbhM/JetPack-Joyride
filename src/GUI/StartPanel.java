@@ -102,17 +102,17 @@ public class StartPanel extends JPanel implements ActionListener{
   }
 
   public void createComponents() {
-    startBtn.setBackground(Color.black);
-    startBtn.setBorderPainted(false);
-    setLayout(null);
-    startBtn.setBounds(370, 450, 250, 100);
-    this.add(startBtn);
-     try {
-          Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
-          startBtn.setIcon(new ImageIcon(img));
-        } catch (Exception ex) {
-          System.out.println(ex);
-        }
+//    startBtn.setBackground(Color.black);
+//    startBtn.setBorderPainted(false);
+//    setLayout(null);
+//    //startBtn.setBounds(370, 450, 250, 100);
+//    //this.add(startBtn);
+//     try {
+//          Image img = ImageIO.read(getClass().getResourceAsStream("download-removebg-preview.png"));
+//          startBtn.setIcon(new ImageIcon(img));
+//        } catch (Exception ex) {
+//          System.out.println(ex);
+//        }
   }
 
   private void addEventHandlers() {

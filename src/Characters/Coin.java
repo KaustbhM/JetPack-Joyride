@@ -52,10 +52,7 @@ public class Coin extends Obstacle{
 
   @Override
   public boolean invalidObstacle() {
-    if (x + width < 0 || !valid) {
-      return true;
-    }
-    return false;
+    return (x + width < 0 || !valid);
   }
 
   @Override
@@ -63,6 +60,12 @@ public class Coin extends Obstacle{
     int[] definition = {x, y ,width, height};
     return definition;
   }
+
+@Override
+public void iterate() {
+	// TODO Auto-generated method stub
+	
+}
 
 }
 
